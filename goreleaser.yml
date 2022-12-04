@@ -1,0 +1,16 @@
+project_name: hashsearch
+
+builds:
+  - id: "hashsearch"
+    main: ./api/v1
+    binary: hashsearch
+    goos:
+      - linux
+      - darwin
+      - windows
+    goarch:
+      - amd64
+      - arm64
+    mod_timestamp: '{{ .CommitTimestamp }}'
+    env:
+    - CGO_ENABLED=0
