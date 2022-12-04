@@ -27,13 +27,19 @@ var (
 // LoadConfig loads config from file and environment variables.
 func LoadConfig(configPath string) error {
 	// Load config from YAML file.
-	k.Load(file.Provider(configPath), yaml.Parser())
+	err := k.Load(file.Provider(configPath), yaml.Parser())
+	if err != nil {
+		return err
+	}
 
 	// Load config from environment variables.
-	k.Load(env.Provider("PERHASH_", ".", func(s string) string {
+	err = k.Load(env.Provider("PERHASH_", ".", func(s string) string {
 		return strings.Replace(strings.ToLower(
 			strings.TrimPrefix(s, "PERHASH_")), "_", ".", -1)
 	}), nil)
+	if err != nil {
+		return err
+	}
 
 	// Read values.
 

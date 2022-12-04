@@ -67,7 +67,7 @@ func search(service image.Usecase) http.Handler {
 		if err != nil {
 			logging.Logger.Errorln(err)
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(ErrListImages))
+			_, _ = w.Write([]byte(ErrListImages))
 			return
 		}
 
@@ -76,12 +76,12 @@ func search(service image.Usecase) http.Handler {
 		if err != nil {
 			logging.Logger.Errorln(err)
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(ErrListImages))
+			_, _ = w.Write([]byte(ErrListImages))
 			return
 		}
 		if data == nil {
 			w.WriteHeader(http.StatusNotFound)
-			w.Write([]byte(ErrFindImages))
+			_, _ = w.Write([]byte(ErrFindImages))
 			return
 		}
 
@@ -107,7 +107,7 @@ func search(service image.Usecase) http.Handler {
 		// Generate JSON response using the presenter.
 		if err := json.NewEncoder(w).Encode(present); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(ErrGetData))
+			_, _ = w.Write([]byte(ErrGetData))
 		}
 	})
 }
@@ -123,12 +123,12 @@ func list(service image.Usecase) http.Handler {
 		if err != nil {
 			logging.Logger.Errorln(err)
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(ErrListImages))
+			_, _ = w.Write([]byte(ErrListImages))
 			return
 		}
 		if data == nil {
 			w.WriteHeader(http.StatusNotFound)
-			w.Write([]byte(ErrFindImages))
+			_, _ = w.Write([]byte(ErrFindImages))
 			return
 		}
 
@@ -147,7 +147,7 @@ func list(service image.Usecase) http.Handler {
 		// Generate JSON response using the presenter.
 		if err := json.NewEncoder(w).Encode(present); err != nil {
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(ErrGetData))
+			_, _ = w.Write([]byte(ErrGetData))
 		}
 	})
 }
