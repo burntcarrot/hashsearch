@@ -26,7 +26,7 @@ func (ah *AvgHash) GenerateHash(img image.Image) uint64 {
 }
 
 // getHash generates the average hash from the grayscale image and the mean.
-func (ah *AvgHash) getHash(img image.Image, mean uint32) uint64 {
+func (*AvgHash) getHash(img image.Image, mean uint32) uint64 {
 	var hash, pos uint64
 	pos = 1
 	bounds := img.Bounds()

@@ -54,9 +54,13 @@ func LoadAsImage(path string) (image.Image, error) {
 	if err != nil {
 		return nil, err
 	}
-	defer file.Close()
 
 	img, err := png.Decode(file)
+	if err != nil {
+		return nil, err
+	}
+
+	err = file.Close()
 	if err != nil {
 		return nil, err
 	}

@@ -19,10 +19,11 @@ import (
 )
 
 var (
-	ErrListImages = "failed to list images"
-	ErrFindImages = "failed to find images"
-	ErrGetData    = "failed to get data"
-	ErrReadInput  = "failed to read input"
+	ErrListImages   = "failed to list images"
+	ErrFindImages   = "failed to find images"
+	ErrGetData      = "failed to get data"
+	ErrReadInput    = "failed to read input"
+	ErrFailedToSave = "failed to save file"
 )
 
 // search is the HTTP handler for serving an image search request.
@@ -49,16 +50,22 @@ func search(service image.Usecase) http.Handler {
 		filePath := filepath.Join(config.FILES_DIR, handler.Filename)
 
 		// Create the new file.
-		targetFile, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0666)
+		targetFile, err := os.OpenFile(filePath, os.O_WRONLY|os.O_CREATE, 0600)
 		if err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
-		defer targetFile.Close()
 
 		// Copy the file data to the new file.
 		if _, err := io.Copy(targetFile, file); err != nil {
 			http.Error(w, err.Error(), http.StatusInternalServerError)
+			return
+		}
+
+		err = targetFile.Close()
+		if err != nil {
+			w.WriteHeader(http.StatusNotFound)
+			_, _ = w.Write([]byte(ErrFailedToSave))
 			return
 		}
 

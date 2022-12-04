@@ -19,7 +19,7 @@ func InitLogger() *logrus.Logger {
 	logger.Formatter = &logrus.JSONFormatter{}
 
 	// Read file.
-	file, err := os.OpenFile(config.LOGGING_FILE, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0755)
+	file, err := os.OpenFile(config.LOGGING_FILE, os.O_WRONLY|os.O_CREATE|os.O_APPEND, 0600)
 	if err != nil {
 		logger.Fatal(err)
 	}
